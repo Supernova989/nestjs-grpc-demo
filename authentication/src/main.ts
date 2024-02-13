@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { AuthenticationModule } from './authentication.module';
 import { join } from 'path';
 import { ProtoPackage } from 'nestjs-grpc-demo-common-lib/dist/enums';
+import { PROTO_FOLDER_PATH } from 'nestjs-grpc-demo-common-lib/dist/constants';
+import { AuthenticationModule } from './authentication.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -12,14 +13,7 @@ async function bootstrap() {
       options: {
         url: 'localhost:3001',
         package: ProtoPackage.AUTHENTICATION,
-        protoPath: join(
-          __dirname,
-          '..',
-          'node_modules',
-          'nestjs-grpc-demo-common-lib',
-          'proto',
-          'authentication.proto',
-        ),
+        protoPath: join(PROTO_FOLDER_PATH, 'authentication.proto'),
       },
     },
   );

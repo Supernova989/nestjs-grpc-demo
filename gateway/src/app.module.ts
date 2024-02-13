@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { PROTO_FOLDER_PATH } from 'nestjs-grpc-demo-common-lib/dist/constants';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   Microservice,
   ProtoPackage,
 } from 'nestjs-grpc-demo-common-lib/dist/enums';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { EnvironmentVariables, validate } from './environment';
 
 @Module({
@@ -31,14 +32,7 @@ import { EnvironmentVariables, validate } from './environment';
               options: {
                 url: config.get('MS_AUTHENTICATION_URL'),
                 package: ProtoPackage.AUTHENTICATION,
-                protoPath: join(
-                  __dirname,
-                  '..',
-                  'node_modules',
-                  'nestjs-grpc-demo-common-lib',
-                  'proto',
-                  'authentication.proto',
-                ),
+                protoPath: join(PROTO_FOLDER_PATH, 'authentication.proto'),
               },
             };
           },
